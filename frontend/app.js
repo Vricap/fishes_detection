@@ -137,7 +137,7 @@ fileInput.addEventListener("change", async () => {
     detectionsDiv.innerHTML = html;
     window.lastDetectionData = data; // allow describe button to use latest result
     // describeBtn.click();
-    // await getGpt();
+    await getGpt();
   } catch (error) {
     console.error(error);
     detectionsDiv.innerHTML = "<p>Error connecting to backend.</p>";
