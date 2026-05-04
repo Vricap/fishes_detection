@@ -1,21 +1,91 @@
-from fastapi import FastAPI, UploadFile, File
-from fastapi.responses import JSONResponse, FileResponse
-from fastapi.middleware.cors import CORSMiddleware
-from ultralytics import YOLO
-import uuid
-import os
-from PIL import Image
 import io
-from openai import OpenAI
-from fastapi import Body
+import os
+import uuid
+
 from dotenv import load_dotenv
+from fastapi import Body, FastAPI, File, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse, JSONResponse
+from openai import OpenAI
+from PIL import Image
+from ultralytics import YOLO
 
 NUTRITION_FACTS = {
-    "lele": {"protein": 18, "fat": 12, "calories": 105},
-    "nila": {"protein": 20, "fat": 3, "calories": 96},
-    "gurame": {"protein": 19, "fat": 5, "calories": 102},
-    "patin": {"protein": 15, "fat": 5, "calories": 120},
-    "bandeng": {"protein": 20, "fat": 4, "calories": 129},
+    "lele": {
+        "protein": 16.5,
+        "lemak": 7.31,
+        "kalori": 129,
+        "air": 75.9,
+        "nitrogen": 2.64,
+        "karbo": 0,
+        "kalsium": 8,
+        "serat": 0,
+        "abu": 0.97,
+        "fosfor": 166,
+        "besi": 0.25,
+        "natrium": 61,
+        "kalium": 292,
+    },
+    "nila": {
+        "protein": 19,
+        "lemak": 2.48,
+        "kalori": 95,
+        "air": 78.3,
+        "nitrogen": 3.04,
+        "karbo": 0,
+        "kalsium": 9,
+        "serat": 0,
+        "abu": 1.15,
+        "fosfor": 159,
+        "besi": 0.25,
+        "natrium": 94,
+        "kalium": 342,
+    },
+    "gurame": {
+        "protein": 17.48,
+        "lemak": 5.49,
+        "kalori": 125,
+        "air": 75,
+        "nitrogen": 2.5,
+        "karbo": 0,
+        "kalsium": 8,
+        "serat": 0,
+        "abu": 1.10,
+        "fosfor": 111,
+        "besi": 0.25,
+        "natrium": 48,
+        "kalium": 326,
+    },
+    "patin": {
+        "protein": 16.5,
+        "lemak": 7.31,
+        "kalori": 129,
+        "air": 75.9,
+        "nitrogen": 2.64,
+        "karbo": 0,
+        "kalsium": 8,
+        "serat": 0,
+        "abu": 0.97,
+        "fosfor": 166,
+        "besi": 0.25,
+        "natrium": 61,
+        "kalium": 292,
+    },
+    "bandeng": {
+        "protein": 20,
+        "lemak": 4.8,
+        "kalori": 123,
+        "air": 74,
+        "nitrogen": 2.2,
+        "karbo": 0,
+        "kalsium": 20,
+        "serat": 0,
+        "abu": 1.2,
+        "fosfor": 150,
+        "besi": 2.0,
+        "natrium": 67,
+        "kalium": 271.1,
+    },
 }
 
 app = FastAPI()
@@ -186,14 +256,41 @@ async def detect(file: UploadFile = File(...)):
         # Calculate nutrition
         if cls_name in NUTRITION_FACTS:
             if cls_name not in total_nutrition:
-                total_nutrition[cls_name] = {"protein": 0, "fat": 0, "calories": 0}
+                total_nutrition[cls_name] = {
+                    "protein": 0,
+                    "lemak": 0,
+                    "kalori": 0,
+                    "air": 0,
+                    "nitrogen": 0,
+                    "karbo": 0,
+                    "kalsium": 0,
+                    "serat": 0,
+                    "abu": 0,
+                    "fosfor": 0,
+                    "besi": 0,
+                    "natrium": 0,
+                    "kalium": 0,
+                }
 
             total_nutrition[cls_name]["protein"] += NUTRITION_FACTS[cls_name]["protein"]
-            total_nutrition[cls_name]["fat"] += NUTRITION_FACTS[cls_name]["fat"]
-            total_nutrition[cls_name]["calories"] += NUTRITION_FACTS[cls_name][
-                "calories"
+            total_nutrition[cls_name]["lemak"] += NUTRITION_FACTS[cls_name]["lemak"]
+            total_nutrition[cls_name]["kalori"] += NUTRITION_FACTS[cls_name]["kalori"]
+            total_nutrition[cls_name]["air"] += NUTRITION_FACTS[cls_name]["air"]
+            total_nutrition[cls_name]["nitrogen"] += NUTRITION_FACTS[cls_name][
+                "nitrogen"
             ]
+            total_nutrition[cls_name]["karbo"] += NUTRITION_FACTS[cls_name]["karbo"]
+            total_nutrition[cls_name]["kalsium"] += NUTRITION_FACTS[cls_name]["kalsium"]
+            total_nutrition[cls_name]["serat"] += NUTRITION_FACTS[cls_name]["serat"]
+            total_nutrition[cls_name]["abu"] += NUTRITION_FACTS[cls_name]["abu"]
+            total_nutrition[cls_name]["fosfor"] += NUTRITION_FACTS[cls_name]["fosfor"]
+            total_nutrition[cls_name]["besi"] += NUTRITION_FACTS[cls_name]["besi"]
+            total_nutrition[cls_name]["natrium"] += NUTRITION_FACTS[cls_name]["natrium"]
+            total_nutrition[cls_name]["kalium"] += NUTRITION_FACTS[cls_name]["kalium"]
 
+    print(detections)
+    print(fish_count)
+    print(total_nutrition)
     return {
         "image_url": f"/result/{file_id}",
         "detections": detections,

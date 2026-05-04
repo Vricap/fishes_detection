@@ -221,6 +221,10 @@ body {
     background: #15803d;
 }
 
+.icon-nut {
+    background: black;
+}
+
 /* Fade animation */
 @keyframes fadeInUp {
     from {

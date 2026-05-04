@@ -1,4 +1,5 @@
 const backendUrl = "http://localhost:8000"; // change if deployed
+// const backendUrl = "https://generators-friendship-cho-muscles.trycloudflare.com"; // change if deployed
 
 const fileInput = document.getElementById("fileInput");
 const originalImage = document.getElementById("originalImage");
@@ -40,7 +41,7 @@ fileInput.addEventListener("change", async () => {
     // Show detection details
     let html = "<h3>Hasil Deteksi:</h3>";
 
-    html += "<p><strong>Totak ikan terdeteksi:</strong></p><ul>";
+    html += "<p><strong>Total ikan terdeteksi:</strong></p><ul>";
     Object.entries(data.count).forEach(([species, count]) => {
       html += `<li>${species} — ${count} ikan</li>`;
     });
@@ -65,13 +66,55 @@ fileInput.addEventListener("change", async () => {
 
           <div class="nutrient-item">
             <div class="nutrient-icon icon-fat">F</div>
-            Lemak: <strong>${nut.fat} g</strong>
+            Lemak: <strong>${nut.lemak} g</strong>
           </div>
 
           <div class="nutrient-item">
             <div class="nutrient-icon icon-cal">C</div>
-            Kalori: <strong>${nut.calories} kcal</strong>
+            Kalori: <strong>${nut.kalori} kcal</strong>
           </div>
+
+          <div class="nutrient-item">
+          <div class="nutrient-icon icon-nut">w</div>
+          Air: <strong>${nut.air} g</strong>
+          </div>
+          <div class="nutrient-item">
+          <div class="nutrient-icon icon-nut">n</div>
+          nitrogen: <strong>${nut.nitrogen} g</strong>
+          </div>
+          <div class="nutrient-item">
+          <div class="nutrient-icon icon-nut">k</div>
+          karbo: <strong>${nut.karbo} g</strong>
+          </div>
+          <div class="nutrient-item">
+          <div class="nutrient-icon icon-nut">ca</div>
+          kalsium: <strong>${nut.kalsium} mg</strong>
+          </div>
+          <div class="nutrient-item">
+          <div class="nutrient-icon icon-nut">f</div>
+          serat: <strong>${nut.serat} g</strong>
+          </div>
+          <div class="nutrient-item">
+          <div class="nutrient-icon icon-nut">a</div>
+          abu: <strong>${nut.abu} g</strong>
+          </div>
+          <div class="nutrient-item">
+          <div class="nutrient-icon icon-nut">p</div>
+          fosfor: <strong>${nut.fosfor} mg</strong>
+          </div>
+          <div class="nutrient-item">
+          <div class="nutrient-icon icon-nut">fe</div>
+          besi: <strong>${nut.besi} mg</strong>
+          </div>
+          <div class="nutrient-item">
+          <div class="nutrient-icon icon-nut">na</div>
+          natrium: <strong>${nut.natrium} mg</strong>
+          </div>
+          <div class="nutrient-item">
+          <div class="nutrient-icon icon-nut">k</div>
+          kalium: <strong>${nut.kalium} mg</strong>
+          </div>
+
         </div>
       `;
     });
@@ -81,20 +124,20 @@ fileInput.addEventListener("change", async () => {
       </div>
     `;
 
-    html += "<h3>Deteksi mentah yolo:</h3><ul>";
-    data.detections.forEach((det) => {
-      html += `
-        <li>
-          ${det.class} — ${(det.confidence * 100).toFixed(1)}%
-        </li>
-      `;
-    });
-    html += "</ul>";
+    // html += "<h3>Deteksi mentah yolo:</h3><ul>";
+    // data.detections.forEach((det) => {
+    //   html += `
+    //     <li>
+    //       ${det.class} — ${(det.confidence * 100).toFixed(1)}%
+    //     </li>
+    //   `;
+    // });
+    // html += "</ul>";
 
     detectionsDiv.innerHTML = html;
     window.lastDetectionData = data; // allow describe button to use latest result
     // describeBtn.click();
-    await getGpt();
+    // await getGpt();
   } catch (error) {
     console.error(error);
     detectionsDiv.innerHTML = "<p>Error connecting to backend.</p>";
