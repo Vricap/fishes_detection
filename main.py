@@ -120,52 +120,48 @@ client = OpenAI(
 )
 
 
-# Helper: prompt builder
 def build_prompt(summary):
-    # summary: dict with keys: count (dict), nutrition_total (dict)
-    # Return a clear prompt asking for structured JSON
-    prompt = f"""
-You are a helpful culinary & fish expert. Given the detection results below, produce a JSON object which contains, for each species:
-- species (string)
-- description (2-4 sentences, short natural history + taste/texture)
-- recommended_cooking_methods (list of 2-4 short method names with 1-line explanation each)
-- simple_recipe (one short recipe for that species scaled to 1 fish)
-- serving_recommendations (how to serve and suggested side dishes)
-Also provide a top-level "summary" with:
-- total_fish_count (int),
-- combined_nutrition (object: protein, fat, calories),
-- quick_meal_plan (1-2 sentences suggesting how to use all detected fish together).
-Return only valid JSON.
 
-DETECTION_SUMMARY:
+    return f"""
+Anda adalah ahli ikan dan kuliner Indonesia.
+
+Berdasarkan data berikut:
+
 {summary}
 
-Output JSON schema example:
+Buat JSON VALID saja.
+
+Aturan:
+
+- Gunakan Bahasa Indonesia.
+- Jangan gunakan markdown.
+- Jangan tambahkan penjelasan di luar JSON.
+- Deskripsi maksimal 1 kalimat.
+- Maksimal 2 metode memasak per spesies.
+- Catatan metode maksimal 10 kata.
+- Resep maksimal 3 langkah singkat.
+- Penyajian maksimal 1 kalimat.
+
+Schema:
+
 {{
   "species": [
     {{
-      "species": "nila",
-      "count": 3,
-      "description": "...",
+      "species": "",
+      "count": 0,
+      "description": "",
       "recommended_cooking_methods": [
-         {{ "method": "grill", "note": "..." }},
-         ...
+        {{
+          "method": "",
+          "note": ""
+        }}
       ],
-      "simple_recipe": "...",
-      "serving_recommendations": "..."
-    }},
-    ...
-  ],
-  "summary": {{
-    "total_fish_count": 4,
-    "combined_nutrition": {{ "protein": 78, "fat": 21, "calories": 393 }},
-    "quick_meal_plan": "..."
-  }}
+      "simple_recipe": "",
+      "serving_recommendations": ""
+    }}
+  ]
 }}
-
-Be concise and friendly. And use Bahasa Indonesia language in the response.
 """
-    return prompt
 
 
 @app.post("/describe")
@@ -194,7 +190,7 @@ async def describe_detection(payload: dict = Body(...)):
     completion = client.chat.completions.create(
         model="openai/gpt-4o",
         messages=[{"role": "user", "content": prompt}],
-        max_tokens=2000,
+        max_tokens=1000,
     )
 
     # Extract text

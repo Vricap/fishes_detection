@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>FishScan AI</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+
+    <body>
+        <nav class="navbar">
+            <div class="logo">FishScan AI</div>
+
+            <div class="nav-menu">
+                <a href="#">Home</a>
+                <!--<a href="#">Features</a>-->
+                <a href="https://github.com/vricap/fishes_detection">Github</a>
+            </div>
+        </nav>
+
+        <section class="hero">
+            <span class="hero-badge"> YOLO + LLM Powered </span>
+
+            <h1>Deteksi Ikan Air Tawar dengan AI</h1>
+
+            <p>
+                Identifikasi spesies ikan, analisis kandungan gizi, dan
+                rekomendasi masakan secara otomatis.
+            </p>
+        </section>
+
+        <section class="workflow">
+            <div class="step">
+                📤
+                <span>Upload</span>
+            </div>
+
+            <div class="step">
+                🔍
+                <span>Detect</span>
+            </div>
+
+            <div class="step">
+                🧪
+                <span>Nutrition</span>
+            </div>
+
+            <div class="step">
+                🍽
+                <span>Recipe</span>
+            </div>
+        </section>
+
+        <div class="container">
+            <div class="card upload-card">
+                <h2>Upload Gambar</h2>
+
+                <div id="uploadArea" class="upload-area">
+                    <div class="upload-icon">☁️</div>
+
+                    <h3>Drag & Drop Image</h3>
+
+                    <p>atau klik untuk memilih file</p>
+
+                    <input type="file" id="fileInput" hidden accept="image/*" />
+                </div>
+            </div>
+
+            <div id="statsSection"></div>
+
+            <div class="card image-section">
+                <h2>Visualisasi Deteksi</h2>
+
+                <div class="images">
+                    <div class="image-box">
+                        <h4>Original</h4>
+                        <img id="originalImage" />
+                    </div>
+
+                    <div class="image-box">
+                        <h4>Detection</h4>
+                        <img id="resultImage" />
+                    </div>
+                </div>
+            </div>
+
+            <div id="detections"></div>
+
+            <div id="llmResults"></div>
+            <div id="loadingState" class="loading">
+                <div class="spinner"></div>
+
+                <h3>AI sedang menganalisis...</h3>
+            </div>
+        </div>
+
+        <footer class="footer">Powered by YOLO — Built by vricap.</footer>
+
+        <script src="app.js"></script>
+    </body>
+</html>
